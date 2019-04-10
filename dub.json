@@ -1,0 +1,9 @@
+{
+	"name": "nsp",
+	"authors": [
+		"Michael Lynch"
+	],
+	"description": "Application to aid NoSyn project development",
+	"copyright": "Copyright © 2019, Michael Lynch",
+	"license": "proprietary"
+}

@@ -1,0 +1,14 @@
+.dub
+docs.json
+__dummy.html
+docs/
+nsp.so
+nsp.dylib
+nsp.dll
+nsp.a
+nsp.lib
+nsp-test-*
+*.exe
+*.o
+*.obj
+*.lst
