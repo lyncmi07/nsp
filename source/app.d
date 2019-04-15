@@ -23,4 +23,5 @@ void main()
 
 	writeln("currentDirectory:", currentDirectory);
   source_copier.copyDSource();
+  source_copier.compileNSSource();
 }
