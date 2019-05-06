@@ -8,6 +8,8 @@ nsp.dll
 nsp.a
 nsp.lib
 nsp-test-*
+nsp
+nsp.sh
 *.exe
 *.o
 *.obj
