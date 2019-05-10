@@ -8,44 +8,50 @@ import std.process;
 import current_directory;
 import build_time;
 import filepath;
+import files.action;
 
-const string noSynCompileCommand = "no-syn-exe";
+version(Windows) {
+    const string noSynCompileCommand = "no-syn-exe.exe";
+} else {
+    const string noSynCompileCommand = "no-syn-exe";
+}
 
 void copyDSource() {
-  auto dFiles = file.dirEntries(currentDirectory~"/src", file.SpanMode.depth).filter!(f => f.name.endsWith(".d"));
-  writeln("Copying native D files");
-  foreach (DirEntry file; dFiles) {
-    FilePath currentDirectoryPath = FilePath(currentDirectory);
-    FilePath localFilePath = FilePath(file.name[(currentDirectory~"/src/").length..$]);
+    FileAction!(
+    delegate(FileScope f) {
+        FilePath newFilePath = f.currentDirectoryPath / ".nsp" / "dproj" / "source" / f.localFilePath;
+        writeln("File modified, rebuilding: '", f.localFilePath, "'");
 
-    if (file.modifiedSinceLastBuild) {
-      FilePath pathFromFilePath = (currentDirectoryPath / "src" / localFilePath);
-      FilePath newFilePath = (currentDirectoryPath / ".nsp" / "dproj" / "source" / localFilePath);
-
-      writeln("File modified, rebuilding: '", localFilePath, "'");
-
-      newFilePath.directoryPath.mkdirRecurse();
-      pathFromFilePath.copy(newFilePath);
-    }
-  }
-  writeln("Finished copying native D files");
+        newFilePath.directoryPath.mkdirRecurse();
+        f.absoluteFilePath.copy(newFilePath);
+    },
+    delegate(FileScope f) {
+        writeln("this is the other non-mod action");
+    }).performFileAction("/src", ".d");
 }
 
 void compileNSSource() {
-  FilePath currentDirFilePath = FilePath(currentDirectory);
-  FilePath nsSourceFile = currentDirFilePath / "src" / "nosyn.ns";
-  if (DirEntry(nsSourceFile).modifiedSinceLastBuild) {
-    FilePath nsTargetFile = currentDirFilePath / ".nsp" / "dproj" / "source" / "nosyn.d";
-    writeln("nosyn.ns file modified, recompiling");
+    FileAction!(
+    delegate(FileScope f) {
+        FilePath nsTargetFilePath = f.currentDirectoryPath / ".nsp" / "dproj" / "source" / "nosyn.d";
+        FilePath nsCompileErrorLogFilePath = f.currentDirectoryPath / ".nsp" / "tmp" / "nscompile.log";
+        writeln("nosyn.ns file modified, recompiling");
 
-    auto nsCompile = execute([noSynCompileCommand, currentDirFilePath / "src" / "nosyn.ns"]);
-    if (nsCompile.status != 0) {
-      writeln("Compilation of ", nsSourceFile.fileName, " failed:");
-      writeln(nsCompile.output);
-    } else {
-      file.write(nsTargetFile, nsCompile.output);
-    }
-  }
+        auto nsSourceFile = File(f.absoluteFilePath, "r");
+        auto nsTargetFile = File(nsTargetFilePath, "w");
+        auto nsCompileErrorLog = pipe();
+
+        auto nsCompilePid = spawnProcess([noSynCompileCommand], nsSourceFile, nsTargetFile, nsCompileErrorLog.writeEnd);
+
+        if (wait(nsCompilePid) != 0) {
+            foreach(line; nsCompileErrorLog.readEnd.byLine()) {
+                writeln(line);
+            }
+        }
+    },
+    delegate(FileScope f) {
+        writeln("nosyn.ns file has not been modified");
+    }).performFileAction("/src/nosyn.ns");
 }
 
 pragma(inline, true):
