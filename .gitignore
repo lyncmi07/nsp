@@ -14,4 +14,4 @@ nsp.sh
 *.o
 *.obj
 *.lst
-.idea
+.idea/
