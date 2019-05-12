@@ -4,7 +4,7 @@ import std.file : DirEntry;
 static import std.file;
 import current_directory;
 import build_time;
-import filepath;
+import files.filepath;
 import std.algorithm;
 import std.range.primitives: isInputRange;
 import std.string;
@@ -22,14 +22,12 @@ struct FileScope {
     }
 
     this(string offsetDirectory, string file) {
-        localFilePath = FilePath(file);
-        absoluteFilePath = currentDirectoryPath / offsetDirectory / file;
+        localFilePath = FilePath(file[(currentDirectory~offsetDirectory).length..$]);
+        absoluteFilePath = currentDirectoryPath / offsetDirectory / localFilePath;
     }
 }
 
 template FileAction(void delegate(FileScope f) modifiedAction, void delegate(FileScope f) unmodifiedAction)
-//if (is(typeof(modifiedAction) == void delegate(FileScope f))
-//        && is(typeof(unmodifiedAction) == void delegate(FileScope f))) {
 {
     void performFileAction(string rootDirectory, string fileType) {
         auto files = std.file.dirEntries(currentDirectory~rootDirectory, std.file.SpanMode.depth).filter!(f => f.name.endsWith(fileType));
@@ -50,7 +48,10 @@ template FileAction(void delegate(FileScope f) modifiedAction, void delegate(Fil
     }
 
     private void performFileAction(R)(string rootDirectory, R files) {
+        //TODO: Make this an assertion
         static if (isInputRange!(R)) {
+
+            //TODO: Put the fact that it expects DirEntries in the function's assertions
             foreach (DirEntry file; files) {
                 FileScope fileScope = FileScope(rootDirectory, file.name);
 
