@@ -25,30 +25,3 @@ void copyDSource() {
     }).performFileAction("/src", ".d");
 }
 
-void compileNSSource() {
-    FileAction!(
-    delegate(FileScope f) {
-        FilePath nsTargetFilePath = f.currentDirectoryPath / ".nsp" / "dproj" / "source" / "nosyn.d";
-        writeln("nosyn.ns file modified, recompiling");
-
-        auto nsSourceFile = File(f.absoluteFilePath, "r");
-        auto nsTargetFile = File(nsTargetFilePath, "w");
-        auto nsCompileErrorLog = pipe();
-
-        auto nsCompilePid = spawnProcess([noSynCompileCommand], nsSourceFile, nsTargetFile, nsCompileErrorLog.writeEnd);
-
-        if (wait(nsCompilePid) != 0) {
-            foreach(line; nsCompileErrorLog.readEnd.byLine()) {
-                writeln(line);
-            }
-        }
-    },
-    delegate(FileScope f) {
-        writeln("nosyn.ns file has not been modified");
-    }).performFileAction("/src/nosyn.ns");
-}
-
-pragma(inline, true):
-bool modifiedSinceLastBuild(DirEntry file) {
-  return file.timeLastModified.stdTime > previousBuildTime;
-}

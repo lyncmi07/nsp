@@ -7,6 +7,7 @@ import std.string;
 import files.filepath;
 import source_copier = compilation.source_copier;
 import ns_headers = compilation.ns_headers;
+import ns_compile = compilation.ns_compile;
 import current_directory;
 import build_time;
 
@@ -16,5 +17,7 @@ void main()
     writeln("currentDirectory:", currentDirectory);
     //source_copier.copyDSource();
     //source_copier.compileNSSource();
-    ns_headers.generateNoSynHeaders();
+
+    ns_headers.writeHeadersToConsole();
+    ns_compile.compileNSSource();
 }

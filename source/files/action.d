@@ -36,7 +36,7 @@ template FileAction(void delegate(FileScope f) modifiedAction, void delegate(Fil
 
     void performFileAction(string file) {
         auto fileDirEntry = DirEntry(currentDirectory ~ file);
-        auto fileScope = FileScope("", file);
+        auto fileScope = FileScope("", currentDirectory ~ file);
 
         if (fileDirEntry.modifiedSinceLastBuild) {
             writeln("performing modifying action");
