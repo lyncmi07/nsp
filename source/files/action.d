@@ -34,9 +34,22 @@ template FileAction(void delegate(FileScope f) modifiedAction, void delegate(Fil
         performFileAction(rootDirectory, files);
     }
 
-    void performFileAction(string file) {
+    void performFileActionOnSingleFile(string file) {
         auto fileDirEntry = DirEntry(currentDirectory ~ file);
         auto fileScope = FileScope("", currentDirectory ~ file);
+
+        if (fileDirEntry.modifiedSinceLastBuild) {
+            writeln("performing modifying action");
+            modifiedAction(fileScope);
+        } else {
+            writeln("performing non-modifying action");
+            unmodifiedAction(fileScope);
+        }
+    }
+
+    void performFileActionOnSingleFile(string rootDirectory, string file) {
+        auto fileDirEntry = DirEntry(currentDirectory ~ rootDirectory ~ file);
+        auto fileScope = FileScope(rootDirectory, currentDirectory ~ rootDirectory ~ file);
 
         if (fileDirEntry.modifiedSinceLastBuild) {
             writeln("performing modifying action");
