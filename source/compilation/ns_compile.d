@@ -14,11 +14,12 @@ void compileNSSource() {
     bool[string] compiledSources;
 
     void compileAction(FileScope f) {
-        auto moduleName = f.localFilePath.fileName[0..$-".ns".length];
-        if (!(moduleName in compiledSources)) {
+        auto moduleDirectory = f.localFilePath[0..$-".ns".length];
+	auto moduleName = moduleDirectory.replace("/", ".");
+        if (!(moduleDirectory in compiledSources)) {
             compiledSources["nosyn"] = true;
-            FilePath nsTargetFilePath = f.currentDirectoryPath / ".nsp" / "dproj" / "source" / (moduleName ~ ".d");
-            writeln(moduleName ~ ".ns file modified, recompiling");
+            FilePath nsTargetFilePath = f.currentDirectoryPath / ".nsp" / "dproj" / "source" / (moduleDirectory ~ ".d");
+            writeln(moduleName ~ " NoSyn module modified, recompiling");
 
             auto nsSourceFile = File(f.absoluteFilePath, "r");
             auto nsSourceInput = pipe();
@@ -55,6 +56,7 @@ void compileNSSource() {
                         .performFileActionOnSingleFile("/src/", moduleFile);
                 }
 
+                nsTargetFile.writeln("module " ~ moduleName ~ ";");
                 foreach(line; nsOutputPipe.readEnd.byLine()) {
                     nsTargetFile.writeln(line);
                 }
@@ -65,9 +67,7 @@ void compileNSSource() {
         compileAction(f);
     };
 
-    const auto unmodifiedAction = delegate(FileScope f) {
-        writeln("nosyn.ns file has not been modified");
-    };
+    const auto unmodifiedAction = delegate(FileScope f) { };
 
-    FileAction!(compileActionDelegate, compileActionDelegate).performFileActionOnSingleFile("/src/", "nosyn.ns");
+    FileAction!(compileActionDelegate, unmodifiedAction).performFileActionOnSingleFile("/src/", "nosyn.ns");
 }

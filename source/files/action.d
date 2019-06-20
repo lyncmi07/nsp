@@ -39,10 +39,8 @@ template FileAction(void delegate(FileScope f) modifiedAction, void delegate(Fil
         auto fileScope = FileScope("", currentDirectory ~ file);
 
         if (fileDirEntry.modifiedSinceLastBuild) {
-            writeln("performing modifying action");
             modifiedAction(fileScope);
         } else {
-            writeln("performing non-modifying action");
             unmodifiedAction(fileScope);
         }
     }
@@ -52,10 +50,8 @@ template FileAction(void delegate(FileScope f) modifiedAction, void delegate(Fil
         auto fileScope = FileScope(rootDirectory, currentDirectory ~ rootDirectory ~ file);
 
         if (fileDirEntry.modifiedSinceLastBuild) {
-            writeln("performing modifying action");
             modifiedAction(fileScope);
         } else {
-            writeln("performing non-modifying action");
             unmodifiedAction(fileScope);
         }
     }

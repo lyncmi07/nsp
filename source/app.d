@@ -15,10 +15,7 @@ void main()
 {
     writeln("Previous edit:", previousBuildTime);
     writeln("currentDirectory:", currentDirectory);
-    //source_copier.copyDSource();
-    //source_copier.compileNSSource();
 
     source_copier.copyDSource();
-    ns_headers.writeHeadersToConsole();
     ns_compile.compileNSSource();
 }

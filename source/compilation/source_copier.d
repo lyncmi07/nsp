@@ -15,13 +15,12 @@ void copyDSource() {
     FileAction!(
     delegate(FileScope f) {
         FilePath newFilePath = f.currentDirectoryPath / ".nsp" / "dproj" / "source" / f.localFilePath;
-        writeln("File modified, rebuilding: '", f.localFilePath, "'");
+        writeln(f.localFilePath, " file modified, recompiling");
 
         newFilePath.directoryPath.mkdirRecurse();
         f.absoluteFilePath.copy(newFilePath);
     },
     delegate(FileScope f) {
-        writeln("this is the other non-mod action");
     }).performFileAction("/src", ".d");
 }
 
