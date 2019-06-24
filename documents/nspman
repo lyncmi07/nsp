@@ -1,0 +1,32 @@
+.\" Manpage for nsp
+
+.TH nsp 1 "24 June 2019" "NoSyn Programming Language" "NoSyn Programming Language"
+.SH NAME
+nsp - Build management system for NoSyn
+.SH SYNOPSIS
+nsp [COMMAND] [OPTIONS...]
+.SH DESCRIPTION
+Used to manage and create NoSyn projects allowing a NoSyn programmer to build and run NoSyn programs.
+NoSyn is compiled into D Source Files before finally being built into a binary application using dub.
+
+.SH COMMANDS
+.B create
+.RS
+Creates a new NoSyn project in a directory named by the user as an option.
+.RE
+.B compile
+.RS
+Compiles the NoSyn source code and copies all D source files to the target compile location.
+.RE
+.B run
+.RS
+Performs nsp compile and then compiles the generated D source code using dub and runs the result.
+.RE
+.B clean
+.RS
+Cleans the target compile location of all files and ensures that all cache files are rebuilt.
+.RE
+.SH SEE ALSO
+dub(1), nsc(1)
+.SH AUTHOR
+Michael Lynch
