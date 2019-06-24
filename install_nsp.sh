@@ -49,9 +49,11 @@ fi
 
 rm -f /usr/bin/nsp
 rm -f -r /usr/share/nsp
+rm -f /usr/share/man/man1/nsp.1
 
 cp -r ./installation_deps /usr/share/nsp
 cp ./nsp /usr/share/nsp/nsp_compile
 ln -s /usr/share/nsp/scripts/nsp_bin.sh /usr/bin/nsp 
+cp ./documents/nspman /usr/share/man/man1/nsp.1
 
 echo "Install complete"
