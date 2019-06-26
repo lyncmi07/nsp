@@ -1,5 +1,5 @@
 .\" Manpage for nsp
-
+.TL nsp
 .TH nsp 1 "24 June 2019" "NoSyn Programming Language" "NoSyn Programming Language"
 .SH NAME
 nsp - Build management system for NoSyn
