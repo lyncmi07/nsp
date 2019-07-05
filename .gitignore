@@ -15,3 +15,5 @@ nsp.sh
 *.obj
 *.lst
 .idea/
+documents/*.pdf
+documents/*.html
