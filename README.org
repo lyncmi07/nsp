@@ -1,0 +1,30 @@
+#+STARTUP: showall
+#+TITLE: nsp NoSyn Language Build Manager
+
+nsp is a project build manager for the NoSyn Programming Language.
+nsp uses the [[https://github.com/lyncmi07/nsc][nsc]] compiler to generate D source files from NoSyn code and then builds into a binary application using the D 
+package manager DUB.
+
+* Usage
+  =nsp create= This will createa new NoSyn project in a directory named by the user as an option.
+
+  =nsp compile= Compiles the NoSyn source code and copies all D source files to the target compile location from the /src/ directory of a NoSyn project.
+
+  =nsp run= Performs =nsp compile= and then compiles the generated D source code using dub and runs the resulting binary.
+
+  =nsp clean= Cleans the target compile location of all files and ensures that all cached files are rebuilt.
+  
+  NoSyn and D source files should be placed in the src directory of a NoSyn project (NoSyn file extension is .ns)
+  
+* Getting Started
+** Prerequisites
+   - nsp is written in D and requires the D build tool, DUB. Find instructions on install DUB [[https://code.dlang.org/download][here]].
+   - [[https://github.com/lyncmi07/nsc][nsc]] needs to be installed prior to nsp.
+** Installation
+   There are currently no installers for any systems so nsp must be build from source by cloning this repo.
+*** Linux
+    Once DUB and nsc have been installed run the =install_nsp.linux.sh= script from the main directory.
+    This will build the project and create an executable at =/usr/bin/nsp= with install files at =/usr/share/nsp=
+*** Mac
+    Once DUB and nsc have been installed run the =install_nsp.linux.sh= script from the main directory.
+    This will build the project and create an executable at =/usr/local/bin/nsp= with install files at =/usr/local/share/nsp=
