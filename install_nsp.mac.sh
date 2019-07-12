@@ -12,9 +12,9 @@ echo "Running dependency checks for installation"
 
 DEP_ERR_MSG="must be installed before installing nsp"
 BUILDABLE=true
-EXE_LOCATION=/usr/bin/nsp
-DEP_LOCATION=/usr/share/nsp
-MAN_LOCATION=/usr/share/man
+EXE_LOCATION=/usr/local/bin/nsp
+DEP_LOCATION=/usr/local/share/nsp
+MAN_LOCATION=/usr/local/share/man
 
 if ! command -v nsc; then
 	echo "The NoSyn compiler nsc $DEP_ERR_MSG"
