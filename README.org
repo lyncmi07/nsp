@@ -1,5 +1,5 @@
 #+STARTUP: showall
-#+TITLE: nsp NoSyn Language Build Manager
+#+TITLE: nsp: NoSyn Language Build Manager
 
 nsp is a project build manager for the NoSyn Programming Language.
 nsp uses the [[https://github.com/lyncmi07/nsc][nsc]] compiler to generate D source files from NoSyn code and then builds into a binary application using the D 
