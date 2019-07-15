@@ -28,3 +28,5 @@ package manager DUB.
 *** Mac
     Once DUB and nsc have been installed run the =install_nsp.linux.sh= script from the main directory.
     This will build the project and create an executable at =/usr/local/bin/nsp= with install files at =/usr/local/share/nsp=
+*** Windows
+    There currently is no distribution for the Windows platform.
