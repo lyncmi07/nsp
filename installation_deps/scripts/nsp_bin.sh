@@ -8,6 +8,7 @@ fi
 
 if test "$1" = 'compile'; then
 	$NSP_INSTALL_LOCATION/nsp_compile
+    echo "compile process finished"
 fi
 
 if test "$1" = 'run'; then

@@ -3,18 +3,13 @@
 # Dependency Checks
 
 
-if ! id -u; then
-	echo "You must be root to perform install"
-	exit 1
-fi
-
 echo "Running dependency checks for installation"
 
 DEP_ERR_MSG="must be installed before installing nsp"
 BUILDABLE=true
-EXE_LOCATION=/usr/bin/nsp
-DEP_LOCATION=/usr/share/nsp
-MAN_LOCATION=/usr/share/man
+EXE_LOCATION=/usr/local/bin/nsp
+DEP_LOCATION=/usr/local/share/nsp
+MAN_LOCATION=/usr/local/share/man
 
 if ! command -v nsc; then
 	echo "The NoSyn compiler nsc $DEP_ERR_MSG"
@@ -42,9 +37,9 @@ if test -d $DEP_LOCATION; then
 			exit 1
 		fi
 	else
-		printf "The /usr/share/nsp file already exists. Is it ok to overwrite this for install? [N/y]:"
+		printf "The $DEP_LOCATION file already exists. Is it ok to overwrite this for install? [N/y]:"
 		read USER_INPUT
-		if ! test "$USER_INPUT" ='y'; then
+		if test $USER_INPUT != 'y'; then
 			echo "Install cancelled"
 			exit 1
 		fi
@@ -57,7 +52,10 @@ rm -f $MAN_LOCATION/man1/nsp.1
 
 cp -r ./installation_deps $DEP_LOCATION
 cp ./nsp $DEP_LOCATION/nsp_compile
-ln -s $DEP_LOCATION/scripts/nsp_bin.sh /usr/bin/nsp 
-cp ./documents/nspman $MAN_LOCATION/man1/nsp.1
+chmod +x $DEP_LOCATION/nsp_compile
+ln -s $DEP_LOCATION/scripts/nsp_bin.sh $EXE_LOCATION
+chmod +x $EXE_LOCATION
+chmod +x $DEP_LOCATION/scripts/*
+cp ./documents/nsp.man $MAN_LOCATION/man1/nsp.1
 
 echo "Install complete"
