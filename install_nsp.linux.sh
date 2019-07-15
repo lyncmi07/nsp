@@ -11,6 +11,11 @@ EXE_LOCATION=/usr/local/bin/nsp
 DEP_LOCATION=/usr/local/share/nsp
 MAN_LOCATION=/usr/local/share/man
 
+if test $(id -u) != 0 ; then
+    echo "Run as root to install"
+    exit 1
+fi
+
 if ! command -v nsc; then
 	echo "The NoSyn compiler nsc $DEP_ERR_MSG"
 	BUILDABLE=false
