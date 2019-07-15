@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BASEDIR=$(dirname "$0")
+set BASEDIR=$(dirname "$0")
 
 mkdir $1
 cd $1

@@ -1,3 +1,8 @@
+native import std.stdio;
+
+native Nothing writeln(String a);
+
 Int main() {
+    writeln("HELLO WORLD!");
     0;
 };

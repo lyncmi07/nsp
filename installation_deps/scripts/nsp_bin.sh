@@ -1,6 +1,6 @@
 #!/bin/sh
 
-NSP_INSTALL_LOCATION=$(dirname $(readlink -f "$0"))/../
+NSP_INSTALL_LOCATION=/usr/local/share/nsp
 
 if test "$1" = 'create'; then
 	$NSP_INSTALL_LOCATION/scripts/create_project.sh $2
