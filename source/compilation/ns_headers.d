@@ -6,6 +6,7 @@ import files.filepath;
 import files.action;
 import compilation.ns_command;
 import std.process;
+import logger;
 
 string[] headers;
 
@@ -14,9 +15,13 @@ static this() {
 }
 
 private void generateNoSynHeaders() {
+    log(LogProfile.INFO, "Generating NoSyn Headers");
+    
     const auto headerGenerationAction = delegate(FileScope f) {
         auto nsSourceFile = File(f.absoluteFilePath, "r");
         auto nsSourceInput = pipe();
+
+        log(LogProfile.DEBUG, "Generating headers for ", f.absoluteFilePath);
 
         nsSourceInput.writeEnd.writeln("%%SOURCE%%");
         foreach(line; nsSourceFile.byLine()) {
@@ -46,6 +51,7 @@ private void generateNoSynHeaders() {
             import std.array;
 
             auto moduleName = f.localFilePath.splitOnDirectory()[1..$].join(".")[0..$-".ns".length] ~ ":";
+            log(LogProfile.INFO, "No errors occurred during header generation of ", moduleName);
             foreach(line; headerOutput.readEnd.byLine()) {
                 headers ~= moduleName ~ to!string(line);
             }
@@ -53,6 +59,8 @@ private void generateNoSynHeaders() {
     };
 
     FileAction!(headerGenerationAction, headerGenerationAction).performFileAction("/src", ".ns");
+    log(LogProfile.INFO, "Header generation complete");
+    log(LogProfile.DEBUG, "Headers: ", headers);
 }
 
 void writeHeadersToConsole() {

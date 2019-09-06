@@ -10,11 +10,12 @@ import ns_headers = compilation.ns_headers;
 import ns_compile = compilation.ns_compile;
 import current_directory;
 import build_time;
+import logger = logger;
 
 void main()
 {
-    writeln("Previous edit:", previousBuildTime);
-    writeln("currentDirectory:", currentDirectory);
+    logger.log(logger.LogProfile.DEBUG, "Previous edit:", previousBuildTime);
+    logger.log(logger.LogProfile.DEBUG, "currentDirectory:", currentDirectory);
 
     source_copier.copyDSource();
     ns_compile.compileNSSource();

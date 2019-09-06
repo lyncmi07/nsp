@@ -24,5 +24,5 @@ void writeCurrentBuildTime() {
 }
 
 string buildTimeFile() {
-    return currentDirectory ~ "/.nsp/buildTime";
+    return currentDirectory ~ "/.nsp/buildtime";
 }
