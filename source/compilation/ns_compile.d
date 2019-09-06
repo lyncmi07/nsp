@@ -8,6 +8,7 @@ import files.action;
 import compilation.ns_command;
 import ns_headers = compilation.ns_headers;
 import std.process;
+import logger;
 
 void compileNSSource() {
 
@@ -19,7 +20,7 @@ void compileNSSource() {
         if (!(moduleDirectory in compiledSources)) {
             compiledSources["nosyn"] = true;
             FilePath nsTargetFilePath = f.currentDirectoryPath / ".nsp" / "dproj" / "source" / (moduleDirectory ~ ".d");
-            writeln(moduleName ~ " NoSyn module modified, recompiling");
+            log(LogProfile.INFO, moduleName, " NoSyn module modified, recompiling");
 
             auto nsSourceFile = File(f.absoluteFilePath, "r");
             auto nsSourceInput = pipe();
@@ -56,8 +57,10 @@ void compileNSSource() {
                         .performFileActionOnSingleFile("/src/", moduleFile);
                 }
 
+                log(LogProfile.DEBUG, "Dependencies for module ", moduleName);
                 nsTargetFile.writeln("module " ~ moduleName ~ ";");
                 foreach(line; nsOutputPipe.readEnd.byLine()) {
+                    log(LogProfile.DEBUG, line);
                     nsTargetFile.writeln(line);
                 }
             }

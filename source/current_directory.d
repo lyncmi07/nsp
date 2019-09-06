@@ -1,9 +1,11 @@
 module current_directory;
 
 import std.file;
+import std.stdio;
 
 const string currentDirectory;
 
 static this() {
-  currentDirectory = getcwd();
+    writeln("Loading the current_directory module");
+    currentDirectory = getcwd();
 }
