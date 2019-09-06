@@ -28,11 +28,6 @@ private void generateNoSynHeaders() {
             nsSourceInput.writeEnd.writeln(line);
         }
 
-        //nsSourceInput.writeEnd.close();
-        //foreach(line; nsSourceInput.readEnd.byLine()) {
-            //log(LogProfile.DEBUG, to!string(line));
-        //}
-
         auto headerOutput = pipe();
         auto nsHeaderGenErrorLog = pipe();
 
@@ -41,7 +36,6 @@ private void generateNoSynHeaders() {
             [noSynCompileCommand, "--headers"],
             nsSourceInput.readEnd,
             headerOutput.writeEnd,
-            //stdout,
             nsHeaderGenErrorLog.writeEnd
         );
 
