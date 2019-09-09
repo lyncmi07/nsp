@@ -23,10 +23,12 @@ package manager DUB.
 ** Installation
    There are currently no installers for any systems so nsp must be build from source by cloning this repo.
 *** Linux
-    Once DUB and nsc have been installed run the =install_nsp.linux.sh= script from the main directory.
+    Once DUB and nsc have been installed, run the =install_nsp.linux.sh= script from the main directory.
     This will build the project and create an executable at =/usr/bin/nsp= with install files at =/usr/share/nsp=
 *** Mac
-    Once DUB and nsc have been installed run the =install_nsp.linux.sh= script from the main directory.
+    Once DUB and nsc have been installed, run the =install_nsp.linux.sh= script from the main directory.
     This will build the project and create an executable at =/usr/local/bin/nsp= with install files at =/usr/local/share/nsp=
 *** Windows
+    Once DUB and nsc have been installed, run the =install_nsp_windows.bat= script from the main directory.
+    This will build the project and create an excutable at =%appdata%\local\bin\nsp.bat= with install files at =%appdata%\nsp=
     There currently is no distribution for the Windows platform.
