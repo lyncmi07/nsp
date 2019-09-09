@@ -45,8 +45,14 @@ void compileNSSource() {
                     writeln(line);
                 }
             } else {
-                foreach (line; nsOutputPipe.readEnd.byLine()) {
-                    if (line == "%%SOURCE%%") break;
+
+                auto lineTerminator = "\n";
+                version (Windows) {
+                    lineTerminator = "\r\n";
+                }
+
+                foreach (line; nsOutputPipe.readEnd.byLine(KeepTerminator.no, lineTerminator)) {
+                    if (line.to!string == "%%SOURCE%%") break;
                     if (line == "") continue;
                     const auto compileActionDelegate = delegate(FileScope f) {
                         compileAction(f);

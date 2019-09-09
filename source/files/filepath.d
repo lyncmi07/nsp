@@ -2,6 +2,7 @@ module files.filepath;
 
 import std.string;
 import std.array : split;
+import std.conv;
 
 struct FilePath {
     public const string path;
@@ -53,11 +54,11 @@ private string normalisePath(string path) {
         return path;
     }
 
-    string pathPrefix = path[0..separatorPosition+(dirSeparator.length)];
+    string pathPrefix = path[0..to!uint(separatorPosition+dirSeparator.length)];
 
-    while (path[separatorPosition..$].indexOf(dirSeparator) == 0) separatorPosition += dirSeparator.length;
+    while (path[to!uint(separatorPosition)..$].indexOf(dirSeparator) == 0) separatorPosition += dirSeparator.length;
 
-    return pathPrefix ~ path[separatorPosition..$].normalisePath();
+    return pathPrefix ~ path[to!uint(separatorPosition)..$].normalisePath();
 }
 
 unittest {
